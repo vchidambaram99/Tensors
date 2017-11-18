@@ -1,0 +1,8 @@
+#ifndef TENSORS
+#define TENSORS
+//include all of the files necessary for using tensors
+
+#include "Tensor.h"
+#include "TensorCWiseProd.h"
+
+#endif //TENSORS
