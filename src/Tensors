@@ -4,5 +4,8 @@
 
 #include "Tensor.h"
 #include "TensorCWiseProd.h"
+#include "TensorSum.h"
+#include "TensorCWiseQuot.h"
+#include "TensorDiff.h"
 
 #endif //TENSORS

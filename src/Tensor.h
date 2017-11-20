@@ -5,7 +5,6 @@
 #include <iostream>
 #include <sstream>
 #include "TensorExpression.h"
-#include "TensorCWiseProd.h"
 #include "Traits.h"
 
 template<typename T>
@@ -32,14 +31,14 @@ public:
             _size = a.size();
         }
         _dims = a.dims();
-        for(int i = 0;i<_size;i++){
+        for(std::size_t i = 0;i<_size;i++){
             data[i] = static_cast<T>(a[i]);
         }
         return *this;
     }
     Tensor(const std::vector<std::size_t>& dimensions){
         _size = 1;
-        for(int i = 0;i<dimensions.size();i++){
+        for(std::size_t i = 0;i<dimensions.size();i++){
             _size*=dimensions[i];
         }
         data = new T[_size];
