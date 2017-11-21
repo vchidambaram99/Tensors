@@ -6,6 +6,7 @@
 #include <sstream>
 #include "TensorExpression.h"
 #include "Traits.h"
+#include "DimsException.h"
 
 template<typename T>
 class Tensor : public TensorExpression<Tensor<T>>{
@@ -32,7 +33,7 @@ public:
         }
         _dims = a.dims();
         for(std::size_t i = 0;i<_size;i++){
-            data[i] = static_cast<T>(a[i]);
+            data[i] = a[i];
         }
         return *this;
     }
@@ -52,6 +53,56 @@ public:
     std::size_t size()              const { return _size;     } //size of underlying array (num elements in tensor)
     std::vector<std::size_t> dims() const { return _dims;     } //each dimension of tensor
     T* getData()                          { return data;      } //returns pointer to first element of data array
+
+    template<typename E> Tensor& operator*=(const TensorExpression<E>& a){
+        if(a.size()!=_size){
+            throw DimsException(_dims,a.dims());
+        }
+        for(std::size_t i = 0;i<_dims.size();i++){
+            if(a.dims()[i]!=_dims[i]) throw DimsException(_dims,a.dims());
+        }
+        for(std::size_t i = 0;i<_size;i++){
+            data[i] *= a[i];
+        }
+        return *this;
+    }
+    template<typename E> Tensor& operator/=(const TensorExpression<E>& a){
+        if(a.size()!=_size){
+            throw DimsException(_dims,a.dims());
+        }
+        for(std::size_t i = 0;i<_dims.size();i++){
+            if(a.dims()[i]!=_dims[i]) throw DimsException(_dims,a.dims());
+        }
+        for(std::size_t i = 0;i<_size;i++){
+            data[i] /= a[i];
+        }
+        return *this;
+    }
+    template<typename E> Tensor& operator+=(const TensorExpression<E>& a){
+        if(a.size()!=_size){
+            throw DimsException(_dims,a.dims());
+        }
+        for(std::size_t i = 0;i<_dims.size();i++){
+            if(a.dims()[i]!=_dims[i]) throw DimsException(_dims,a.dims());
+        }
+        for(std::size_t i = 0;i<_size;i++){
+            data[i] += a[i];
+        }
+        return *this;
+    }
+    template<typename E> Tensor& operator-=(const TensorExpression<E>& a){
+        if(a.size()!=_size){
+            throw DimsException(_dims,a.dims());
+        }
+        for(std::size_t i = 0;i<_dims.size();i++){
+            if(a.dims()[i]!=_dims[i]) throw DimsException(_dims,a.dims());
+        }
+        for(std::size_t i = 0;i<_size;i++){
+            data[i] -= a[i];
+        }
+        return *this;
+    }
+
 private:
     T* data = nullptr;
     std::size_t _size = 0;
