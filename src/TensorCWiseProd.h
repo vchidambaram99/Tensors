@@ -7,7 +7,7 @@
 namespace vc{
 
     template <typename T1, typename T2, typename Enable = void > class TensorCWiseProd;
-    
+
     template<typename T1, typename T2>
     class TensorCWiseProd<T1,T2, typename std::enable_if_t<!std::is_arithmetic<T1>::value && !std::is_arithmetic<T2>::value>> : public TensorExpression<TensorCWiseProd<T1,T2>>{ //both not arithmetic type
     public:
@@ -21,7 +21,7 @@ namespace vc{
         int size()                 const { return lhs.size();      }
         std::vector<int> dims()    const { return lhs.dims();      }
     };
-    
+
     template<typename T1, typename T2>
     class TensorCWiseProd<T1,T2, typename std::enable_if_t<std::is_arithmetic<T1>::value && !std::is_arithmetic<T2>::value>> : public TensorExpression<TensorCWiseProd<T1,T2>>{ //lhs arithmetic type
     public:
@@ -33,7 +33,7 @@ namespace vc{
         int size()                 const { return rhs.size();    }
         std::vector<int> dims()    const { return rhs.dims();    }
     };
-    
+
     template<typename T1, typename T2>
     class TensorCWiseProd<T1,T2, typename std::enable_if_t<!std::is_arithmetic<T1>::value && std::is_arithmetic<T2>::value>> : public TensorExpression<TensorCWiseProd<T1,T2>>{ //rhs arithmetic type
     public:
@@ -45,18 +45,18 @@ namespace vc{
         int size()                 const { return lhs.size();    }
         std::vector<int> dims()    const { return lhs.dims();    }
     };
-    
+
     template <typename T1, typename T2>
     TensorCWiseProd<T1,T2> const operator*(const T1& lhs, const T2& rhs){
         return TensorCWiseProd<T1,T2>(lhs,rhs);
     }
-    
+
     template<typename T1,typename T2>
     class Traits<TensorCWiseProd<T1,T2>, typename std::enable_if_t<!std::is_arithmetic<T1>::value>>{
     public:
         using datatype = typename Traits<T1>::datatype;
     };
-    
+
     template<typename T1,typename T2>
     class Traits<TensorCWiseProd<T1,T2>, typename std::enable_if_t<std::is_arithmetic<T1>::value>>{
     public:

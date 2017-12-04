@@ -2,6 +2,10 @@
 #define TENSORS
 //include all of the files necessary for using tensors
 
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
+
 #include "Tensor.h"
 #include "TensorCWiseProd.h"
 #include "TensorSum.h"

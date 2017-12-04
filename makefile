@@ -6,8 +6,8 @@ goal := debug
 endif
 objects = $(patsubst ./src/%.cpp,./build/$(goal)/%.o, $(source))
 depends = $(patsubst ./src/%.cpp,./build/$(goal)/%.d, $(source))
-compile = g++ -Wall -o $@ -O3 -std=c++14 -DNDEBUG -ffast-math -march=native
-debug = g++ -Wall -o $@ -O3 -std=c++14 -ffast-math -march=native
+compile = g++ -Wall -o $@ -O3 -std=c++17 -DNDEBUG -ffast-math -march=native -fopenmp
+debug = g++ -Wall -o $@ -O3 -std=c++17 -ffast-math -march=native -fopenmp
 buildFolders = $(sort $(dir $(objects)))
 
 executable: $(objects) makefile
