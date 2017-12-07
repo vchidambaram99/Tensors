@@ -17,9 +17,9 @@ namespace vc{
         TensorCWiseQuot(const T1& u, const T2& v):lhs(u),rhs(v){
             assert(lhs.equalDims(rhs));
         }
-        datatype operator[](int i) const { return lhs[i] / rhs[i]; }
-        int size()                 const { return lhs.size();    }
-        std::vector<int> dims()    const { return lhs.dims();    }
+        datatype operator[](int i) const { return lhs[i] / rhs[i]; } //evaluates an element of the expression
+        int size()                 const { return lhs.size();      } //returns what would be the size of the underlying data array
+        std::vector<int> dims()    const { return lhs.dims();      } //returns the dims of the expression
     };
 
     template<typename T1, typename T2>
@@ -29,9 +29,9 @@ namespace vc{
         const T1& lhs;
         const T2& rhs;
         TensorCWiseQuot(const T1& u, const T2& v):lhs(u),rhs(v){}
-        datatype operator[](int i) const { return lhs / rhs[i]; }
-        int size()                 const { return rhs.size();    }
-        std::vector<int> dims()    const { return rhs.dims();    }
+        datatype operator[](int i) const { return lhs / rhs[i];  } //evaluates an element of the expression
+        int size()                 const { return rhs.size();    } //returns what would be the size of the underlying data array
+        std::vector<int> dims()    const { return rhs.dims();    } //returns the dims of the expression
     };
 
     template<typename T1, typename T2>
@@ -41,9 +41,9 @@ namespace vc{
         const T1& lhs;
         const T2& rhs;
         TensorCWiseQuot(const T1& u, const T2& v):lhs(u),rhs(v){}
-        datatype operator[](int i) const { return lhs[i] / rhs; }
-        int size()                 const { return lhs.size();    }
-        std::vector<int> dims()    const { return lhs.dims();    }
+        datatype operator[](int i) const { return lhs[i] / rhs;  } //evaluates an element of the expression
+        int size()                 const { return lhs.size();    } //returns what would be the size of the underlying data array
+        std::vector<int> dims()    const { return lhs.dims();    } //returns the dims of the expression
     };
 
     template <typename T1, typename T2>

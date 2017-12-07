@@ -12,10 +12,8 @@ namespace vc{
         using datatype = typename Traits<T>::datatype;
         virtual ~TensorExpression(){}
         datatype operator[](int i) const { return static_cast<const T&>(*this)[i];     } //returns evaluation of tensor expression
-        int size()                 const { return static_cast<const T&>(*this).size(); } //returns size of data array
-        std::vector<int> dims()    const { return static_cast<const T&>(*this).dims(); } //returns dims of data array
-        operator T& ()                   { return static_cast<T&>(*this);              }
-        operator const T& ()       const { return static_cast<const T&>(*this);        }
+        int size()                 const { return static_cast<const T&>(*this).size(); } //returns what the size of the underlying data array would be
+        std::vector<int> dims()    const { return static_cast<const T&>(*this).dims(); } //returns the dims of the expression
 
         template<typename E>
         bool equalDims(const TensorExpression<E>& rhs) const { //checks if dims of this and another tensor are the same (necessary for cwise operations)

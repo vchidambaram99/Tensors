@@ -1,6 +1,6 @@
 #ifndef TENSORS
 #define TENSORS
-//include all of the files necessary for using tensors
+//includes all of the files necessary for using tensors
 
 #if defined(_OPENMP)
 #include <omp.h>

@@ -24,8 +24,8 @@ int main(){ //TODO implement contracion
             }
         }
         Eigen::BenchTimer t1,t2;
-        BENCH(t1, 5, 5, a=a*a );
-        BENCH(t2, 5, 5, b=b*b );
+        BENCH(t1, 5, 5, a=a*2 );
+        BENCH(t2, 5, 5, b=b+b );
         mt+=t1.best();
         et+=t2.best();
         for(int i = 0,end = a.dims()[0];i<end;i++){

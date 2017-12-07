@@ -17,16 +17,17 @@ namespace vc{
         Tensor(){
             data = nullptr;
         }
-        Tensor(const Tensor<T>& a){
+        Tensor(const Tensor<T>& a){ //Copy-construction (the templated TensorExpression version doesn't work for this)
             _size = a.size();
             _dims = a.dims();
             data = new T[_size];
+            #pragma omp parallel for simd
             for(int i = 0;i<_size;i++){
-                data[i] = static_cast<T>(a[i]);
+                data[i] = a[i];
             }
             setStriding();
         }
-        Tensor& operator=(const Tensor<T>& a){
+        Tensor& operator=(const Tensor<T>& a){ //Assignment (the templated TensorExpression version doesn't work for this)
             if(a.size()!=_size){
                 delete data;
                 data = new T[a.size()];
@@ -41,17 +42,18 @@ namespace vc{
             return *this;
         }
         template<typename E>
-        Tensor(const TensorExpression<E>& a){
+        Tensor(const TensorExpression<E>& a){ //evaluates TensorExpression and stores result in this tensor
             _size = a.size();
             _dims = a.dims();
             data = new T[_size];
+            #pragma omp parallel for simd
             for(int i = 0;i<_size;i++){
-                data[i] = static_cast<T>(a[i]);
+                data[i] = a[i]; //performs evaluation of each element of the TensorExpression
             }
             setStriding();
         }
         template<typename E>
-        Tensor& operator=(const TensorExpression<E>& a){
+        Tensor& operator=(const TensorExpression<E>& a){ //evaluates TensorExpression and stores result in this tensor
             if(a.size()!=_size){
                 delete data;
                 data = new T[a.size()];
@@ -61,11 +63,11 @@ namespace vc{
             setStriding();
             #pragma omp parallel for simd
             for(int i = 0;i<_size;i++){
-                data[i] = a[i];
+                data[i] = a[i]; //performs evaluation of each element of the TensorExpression
             }
             return *this;
         }
-        Tensor(const std::vector<int>& dimensions){
+        Tensor(const std::vector<int>& dimensions){ //constructs tensor with specified dimensions
             _size = 1;
             for(std::size_t i = 0;i<dimensions.size();i++){
                 _size*=dimensions[i];
@@ -99,7 +101,7 @@ namespace vc{
             *this = *this - rhs;
             return *this;
         }
-        T& operator()(const std::vector<int>& pos){
+        T& operator()(const std::vector<int>& pos){ //element-wise access (the vector has the value for each dimension (0-based))
             assert(pos.size()==_dims.size());
             int idx = 0;
             for(std::size_t i = 0;i<pos.size();i++){
@@ -107,7 +109,7 @@ namespace vc{
             }
             return data[idx];
         }
-        T operator()(const std::vector<int>& pos) const {
+        T operator()(const std::vector<int>& pos) const { //element-wise access (the vector has the value for each dimension (0-based))
             assert(pos.size()==_dims.size());
             int idx = 0;
             for(std::size_t i = 0;i<pos.size();i++){
@@ -121,7 +123,7 @@ namespace vc{
         int _size = 0;
         std::vector<int> _dims;
         std::vector<int> strides;
-        void setStriding(){
+        void setStriding(){ //sets the strides for the tensor
             strides = std::vector<int>(_dims.size());
             strides.back() = 1;
             for(int i = strides.size()-2;i>=0;i--){
