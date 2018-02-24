@@ -40,4 +40,7 @@ Thumbs.db
 ##################
 executable
 debug
+singleE
+singleD
+noOpt
 build/*

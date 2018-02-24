@@ -11,5 +11,6 @@
 #include "TensorSum.h"
 #include "TensorCWiseQuot.h"
 #include "TensorDiff.h"
+#include "TensorReduction.h"
 
 #endif //TENSORS
